@@ -1,21 +1,22 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: likhitha-deployment
+  name: koti-deployment
   namespace: default
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: likhitha
+      app: koti-koti
   template:
     metadata:
       labels:
-        app: likhitha
+        app: koti-koti
     spec:
       containers:
-      - name: likhitha-container
-        image: bhanu3023/likhitha:latest
+      - name: koti-koti-container
+        image: koteswarararaosairi/kk:v6  # Update this to your Docker image if needed
         ports:
         - containerPort: 8080
         resources:
@@ -29,32 +30,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: likhitha-service
+  name: koti-service
   namespace: default
 spec:
-  type: LoadBalancer
+  type: LoadBalancer  # LoadBalancer for external access
   ports:
   - port: 80
     targetPort: 8080
   selector:
-    app: likhitha
----
-apiVersion: autoscaling/v2
-kind: HorizontalPodAutoscaler
-metadata:
-  name: likhitha-hpa
-  namespace: default
-spec:
-  scaleTargetRef:
-    apiVersion: apps/v1
-    kind: Deployment
-    name: likhitha-deployment
-  minReplicas: 2
-  maxReplicas: 10
-  metrics:
-  - type: Resource
-    resource:
-      name: cpu
-      target:
-        type: Utilization
-        averageUtilization: 80
+    app: koti-koti
